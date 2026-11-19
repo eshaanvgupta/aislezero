@@ -33,6 +33,12 @@ Build command `npm run build`; output directory `dist`; Node 24. Set the same pu
 
 For the included automated deployment job, create a Cloudflare Pages project, set repository variable `CLOUDFLARE_PAGES_PROJECT` to its exact project name, and configure GitHub production-environment or repository secrets `CLOUDFLARE_API_TOKEN` (scoped for Pages deployment) and `CLOUDFLARE_ACCOUNT_ID`. Push to main or manually run the workflow. Until that variable and those credentials are configured, CI packages the build and the hosting job is skipped. The membership issuer still requires its own deployment and activation.
 
+### Cloudflare Workers Static Assets alternative
+
+`wrangler.site.jsonc` serves the same application as a static SPA without application storage. Run `npm run site:prepare` to build and copy the Workers asset bundle into `artifacts/workerassets`, omitting Pages-specific redirect files; then deploy with `npx wrangler deploy --config wrangler.site.jsonc`. The single command `npm run site:deploy` prepares and deploys with authenticated credentials.
+
+Without authenticated credentials, run preparation, then `npx wrangler deploy --config wrangler.site.jsonc --temporary` to create a temporary live deployment. It returns the site URL and an ownership claim URL. The intended owner must finish the claim within 60 minutes to keep the deployment. Claim URLs are private ownership links: never commit them or publish them in repository documentation. See [Cloudflare claim deployments](https://developers.cloudflare.com/workers/platform/claim-deployments/). Subsequent deployments after claiming require your normal authenticated Cloudflare account flow. To enable GitHub CI deployment to the claimed Worker, set repository variable `CLOUDFLARE_WORKER_DEPLOY=true` and the account/token secrets above; leave CLOUDFLARE_PAGES_PROJECT unset. The static deployment does not activate payment or membership issuer services.
+
 ## Stateless membership issuer
 
 1. Set up a Cloudflare account and authenticate `npx wrangler login`.

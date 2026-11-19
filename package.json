@@ -20,7 +20,9 @@
     "check": "npm run typecheck && npm test && npm run test:contracts && npm run build",
     "scan:secrets": "node scripts/scan-secrets.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "site:prepare": "npm run build && node scripts/prepare-worker.mjs",
+    "site:deploy": "npm run site:prepare && wrangler deploy --config wrangler.site.jsonc"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
