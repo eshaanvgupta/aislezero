@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "aislezero-membership",
+  "main": "index.ts",
+  "compatibility_date": "2026-11-19",
+  "vars": {
+    "PAYMENTS_ENABLED": "false",
+    "ALLOWED_ORIGIN": "https://invalid.example",
+    "TREASURIES": "{}",
+    "ETH_RPC": "https://ethereum-rpc.publicnode.com",
+    "BNB_RPC": "https://bsc-rpc.publicnode.com",
+    "SOL_RPC": "https://api.mainnet-beta.solana.com",
+    "BTC_API": "https://blockstream.info/api",
+  },
+  "ratelimits": [
+    {
+      "name": "RATE_LIMITER",
+      "namespace_id": "125",
+      "simple": { "limit": 10, "period": 60 },
+    },
+  ],
+  "observability": { "enabled": false },
+}
